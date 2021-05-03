@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Physics", "Physics\Physics.csproj", "{6DEE9D2C-F62F-4A09-AFB8-0201A05B2E23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6DEE9D2C-F62F-4A09-AFB8-0201A05B2E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DEE9D2C-F62F-4A09-AFB8-0201A05B2E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DEE9D2C-F62F-4A09-AFB8-0201A05B2E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DEE9D2C-F62F-4A09-AFB8-0201A05B2E23}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
