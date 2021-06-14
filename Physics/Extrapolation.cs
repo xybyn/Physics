@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 public static class Extrapolation
 {
     public static (double, double) LinExtrapollation(IEnumerable<(double, double)> points)//это используем для зависимости U и КПД от I 

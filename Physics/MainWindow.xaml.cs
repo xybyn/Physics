@@ -17,13 +17,10 @@ namespace Physics
         double R;
         double U;
         double I;
+
         public MainWindow()
         {
             InitializeComponent();
-
-
-
-           
 
             _tableManager = new TableManager(dataGrid);
 
@@ -36,16 +33,7 @@ namespace Physics
 
         private void OnFillTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
-            /*for (int i = 0; i < _tableManager.Height; i++)
-            {
-                var row = _tableManager.GetGreenRow(i);
-                var p1 = Math.Round(row.I * row.U, 3);
-                r = Math.Round(EDS / Ikz, 3);
-                var p2 = Math.Round(row.I * row.I * r, 3);
-                var p = Math.Round(p1 + p2, 3);
-                var nu = Math.Round(p1 / p, 2) * 100;
-               
-            }*/
+            // Must be overwritten
         }
 
         private void OnSaveClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -68,8 +56,7 @@ namespace Physics
 
         private void OnExtrapolateUClicked(object sender, System.Windows.RoutedEventArgs e)
         {
-
-         //   plot1.Model.Series.Add(functionSeries);
+            // Must be overwritten
         }
 
         private void OnDrawUClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -89,7 +76,6 @@ namespace Physics
             linearAxis2.AbsoluteMaximum = 30;
             plotModel1.Axes.Add(linearAxis2);
 
- 
             var scatter = new ScatterSeries();
             for (int i = 0; i < _tableManager.Height; i++)
             {
@@ -99,9 +85,6 @@ namespace Physics
                 scatter.Points.Add(new ScatterPoint(U, I));
             }
             plotModel1.Series.Add(scatter);
-
-
-
 
             var points = new List<(double,double)>();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -119,7 +102,6 @@ namespace Physics
             plotModel1.Series.Add(functionSeries);
 
             plot1.Model = plotModel1;
-
         }
     }
 }

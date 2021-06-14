@@ -1,22 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Physics
 {
-    public class GreenRow
-    {
-        public double R { get; set; }
-        public double U { get; set; }
-        public double I { get; set; }
-        public double P { get; set; }
-        public double P1 { get; set; }
-        public double P2 { get; set; }
-        public double Nu { get; set; }
-    }
     public class TableManager
     {
         private readonly Grid _dataGrid;
@@ -39,12 +24,13 @@ namespace Physics
             greenRow.R = (double)(_dataGrid.FindName($"lbl{row}_{1}") as Label).Content;
             greenRow.U = (double)(_dataGrid.FindName($"lbl{row}_{2}") as Label).Content;
             greenRow.I = (double)(_dataGrid.FindName($"lbl{row}_{3}") as Label).Content;
+
             return greenRow;
         }
 
         public void AddGreenRow(double R, double U, double I)
         {
-            if(_currentIndexGreen >=5)
+            if (_currentIndexGreen >= 5)
             {
                 return;
             }
@@ -65,7 +51,6 @@ namespace Physics
                 for (int j = 0; j < _height; j++)
                 {
                     var label = _dataGrid.FindName($"lbl{j}_{i}") as Label;
-
                     label.Content = string.Empty;
                 }
             }
