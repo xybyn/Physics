@@ -4,6 +4,8 @@ using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Media.Media3D;
+using HelixToolkit.Wpf;
 
 namespace Physics
 {
@@ -21,12 +23,44 @@ namespace Physics
         {
             InitializeComponent();
 
-
-
-           
-
+            sunLight.Transform = new Transform3DGroup
+            {
+                Children = new Transform3DCollection
+                {
+                    new TranslateTransform3D(0, 0, 10),
+                    new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90))
+                }
+            };
+            //sunLight.Ambient += 100000;
             _tableManager = new TableManager(dataGrid);
+            
+            ModelImporter importer = new ModelImporter();
+            Model3D table = importer.Load(@"Resources/table/table.obj");
+            Model3D res = importer.Load(@"Resources/res/res.obj");
+            Model3D voltmeter = importer.Load(@"Resources/volt/volt.obj");
+            var tg = new Transform3DGroup();
+            tg.Children.Add(new TranslateTransform3D(new Vector3D(0, 0, 5)));
+            tg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
+            
+            var tg2 = new Transform3DGroup();
+            tg2.Children.Add(new TranslateTransform3D(new Vector3D(20, 0, 5)));
+            tg2.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
+            table.Transform = new ScaleTransform3D(1.4, 1.4, 1.4);
+            res.Transform = tg;
 
+            voltmeter.Transform =tg2;
+            modelVisual.Children.Add(new ModelVisual3D
+            {
+                Content = table
+            });
+            modelVisual.Children.Add(new ModelVisual3D
+            {
+                Content = res
+            });
+            modelVisual.Children.Add(new ModelVisual3D
+            {
+                Content = voltmeter
+            });
         }
 
         private void OnClearTableClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -36,16 +70,7 @@ namespace Physics
 
         private void OnFillTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
-            /*for (int i = 0; i < _tableManager.Height; i++)
-            {
-                var row = _tableManager.GetGreenRow(i);
-                var p1 = Math.Round(row.I * row.U, 3);
-                r = Math.Round(EDS / Ikz, 3);
-                var p2 = Math.Round(row.I * row.I * r, 3);
-                var p = Math.Round(p1 + p2, 3);
-                var nu = Math.Round(p1 / p, 2) * 100;
-               
-            }*/
+
         }
 
         private void OnSaveClicked(object sender, System.Windows.RoutedEventArgs e)
