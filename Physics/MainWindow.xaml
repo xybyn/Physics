@@ -66,10 +66,16 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" Margin="2,0,1.8,2.4" Click="OnDrawUClicked">Построить</Button>
-                        <Button Grid.Column="1" Margin="2.2,2,1.6,0" Click="OnExtrapolateUClicked" >Экстраполировать</Button>
+                        <Button Grid.Column="0"  Click="OnDrawUClicked">Построить</Button>
+                        <Label Grid.Column="1" Content="I кз:" HorizontalAlignment="Right"></Label>
+                        <Label Grid.Column="2" x:Name="IkzLabel" Content="65" HorizontalAlignment="Left"></Label>
+                        <Label Grid.Column="3" Content="ЭДС" HorizontalAlignment="Right"></Label>
+                        <Label Grid.Column="4" x:Name="EDSLabel" Content="65" HorizontalAlignment="Left"></Label>
                     </Grid>
                     <oxy:PlotView x:Name="plot1" >
                     </oxy:PlotView>
@@ -77,17 +83,78 @@
 
             </TabItem>
             <TabItem Header="P1(I)"  Width="60">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0"  Click="OnDrawP1Clicked">Построить</Button>
+                        
+                    </Grid>
+                    <oxy:PlotView x:Name="plot2" >
+                    </oxy:PlotView>
+                </Grid>
 
             </TabItem>
 
             <TabItem Header="P2(I)"  Width="60">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
+                        <Button Grid.Column="0"  Click="OnDrawP2Clicked">Построить</Button>
+
+                    </Grid>
+                    <oxy:PlotView x:Name="plot3" >
+                    </oxy:PlotView>
+                </Grid>
             </TabItem>
             <TabItem Header="P(I)"  Width="60">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
+                        <Button Grid.Column="0"  Click="OnDrawPClicked">Построить</Button>
+
+                    </Grid>
+                    <oxy:PlotView x:Name="plot4" >
+                    </oxy:PlotView>
+                </Grid>
             </TabItem>
             <TabItem Header="КПД"  Width="60">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
+                        <Button Grid.Column="0"  Click="OnDrawNuClicked">Построить</Button>
+
+                    </Grid>
+                    <oxy:PlotView x:Name="plot5" >
+                    </oxy:PlotView>
+                </Grid>
             </TabItem>
         </TabControl>
 
@@ -97,7 +164,7 @@
             Grid.Row="1"  
             x:Name="view"
             CameraRotationMode="Turntable" 
-            ModelUpDirection="0,1,0">
+            ModelUpDirection="0,1,0" RenderTransformOrigin="0.494,0.469">
             <ModelVisual3D x:Name="modelVisual">
                 <helix:DefaultLights/>
                 <helix:CubeVisual3D></helix:CubeVisual3D>

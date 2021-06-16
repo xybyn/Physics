@@ -17,13 +17,16 @@ namespace Physics
         double R;
         double U;
         double I;
+        double EDS;
+        double Ikz;
+        double r;
         public MainWindow()
         {
             InitializeComponent();
 
 
 
-           
+
 
             _tableManager = new TableManager(dataGrid);
 
@@ -31,12 +34,15 @@ namespace Physics
 
         private void OnClearTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (_tableManager.Uextrapolated) return;
             _tableManager.Clear();
         }
 
         private void OnFillTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
-            /*for (int i = 0; i < _tableManager.Height; i++)
+            if (!_tableManager.Uextrapolated) return;
+            _tableManager.YrowsFilled = true;
+            for (int i = 0; i < _tableManager.Height; i++)
             {
                 var row = _tableManager.GetGreenRow(i);
                 var p1 = Math.Round(row.I * row.U, 3);
@@ -44,18 +50,19 @@ namespace Physics
                 var p2 = Math.Round(row.I * row.I * r, 3);
                 var p = Math.Round(p1 + p2, 3);
                 var nu = Math.Round(p1 / p, 2) * 100;
-               
-            }*/
+                _tableManager.AddYellow(p, p1, p2, nu);
+            }
         }
 
         private void OnSaveClicked(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (_tableManager.Uextrapolated) return;
             _tableManager.AddGreenRow(R, U, I);
         }
 
         private void OnSliderValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
         {
- 
+
             var eds = 18.0;
             var r = 642.0;
             var R = rSlider.Value;
@@ -69,11 +76,13 @@ namespace Physics
         private void OnExtrapolateUClicked(object sender, System.Windows.RoutedEventArgs e)
         {
 
-         //   plot1.Model.Series.Add(functionSeries);
+            //   plot1.Model.Series.Add(functionSeries);
         }
 
         private void OnDrawUClicked(object sender, System.Windows.RoutedEventArgs e)
         {
+            if (!_tableManager.measurementsdone) return;
+            _tableManager.Uextrapolated = true;
             var plotModel1 = new PlotModel();
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
@@ -89,7 +98,7 @@ namespace Physics
             linearAxis2.AbsoluteMaximum = 30;
             plotModel1.Axes.Add(linearAxis2);
 
- 
+
             var scatter = new ScatterSeries();
             for (int i = 0; i < _tableManager.Height; i++)
             {
@@ -103,7 +112,7 @@ namespace Physics
 
 
 
-            var points = new List<(double,double)>();
+            var points = new List<(double, double)>();
             for (int i = 0; i < _tableManager.Height; i++)
             {
                 var row = _tableManager.GetGreenRow(i);
@@ -114,11 +123,223 @@ namespace Physics
             var (k, b) = Extrapolation.LinExtrapollation(points);
             var functionSeries = new FunctionSeries((x) =>
             {
-                return k * x +b;
+                return k * x + b;
+            }, 0, 30, 0.01);
+            plotModel1.Series.Add(functionSeries);
+            IkzLabel.Content = Math.Round(b, 3);
+            EDSLabel.Content = Math.Round(-b / k, 3);
+            Ikz = Math.Round(b, 3);
+            EDS = Math.Round(-b / k, 3);
+            plot1.Model = plotModel1;
+
+        }
+
+        private void OnDrawP1Clicked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!_tableManager.YrowsFilled) return;
+            var plotModel1 = new PlotModel();
+            var linearAxis1 = new LinearAxis();
+            linearAxis1.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+            plotModel1.Axes.Add(linearAxis1);
+            var linearAxis2 = new LinearAxis();
+            linearAxis2.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis2.MinorGridlineStyle = LineStyle.Dot;
+            linearAxis2.Position = AxisPosition.Bottom;
+            linearAxis1.AbsoluteMinimum = 0;
+            linearAxis2.AbsoluteMinimum = 0;
+            linearAxis1.AbsoluteMaximum = 150;//ось y
+            linearAxis2.AbsoluteMaximum = 30;//ось х
+            plotModel1.Axes.Add(linearAxis2);
+
+
+            var scatter = new ScatterSeries();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var grow = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var P1 = yrow.P1;
+                var I = grow.I;
+                scatter.Points.Add(new ScatterPoint(I, P1));
+            }
+            plotModel1.Series.Add(scatter);
+
+
+
+
+            var points = new List<(double, double)>();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var row = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var P1 = yrow.P1;
+                var I = row.I;
+                points.Add((I, P1));
+            }
+            var (a, b) = Extrapolation.QuadExtrapollation(points);
+            var functionSeries = new FunctionSeries((x) =>
+            {
+                return a * x * x + b * x;
             }, 0, 30, 0.01);
             plotModel1.Series.Add(functionSeries);
 
-            plot1.Model = plotModel1;
+            plot2.Model = plotModel1;
+
+        }
+        private void OnDrawP2Clicked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!_tableManager.YrowsFilled) return;
+            var plotModel1 = new PlotModel();
+            var linearAxis1 = new LinearAxis();
+            linearAxis1.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+            plotModel1.Axes.Add(linearAxis1);
+            var linearAxis2 = new LinearAxis();
+            linearAxis2.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis2.MinorGridlineStyle = LineStyle.Dot;
+            linearAxis2.Position = AxisPosition.Bottom;
+            linearAxis1.AbsoluteMinimum = 0;
+            linearAxis2.AbsoluteMinimum = 0;
+            linearAxis1.AbsoluteMaximum = 400;//ось y
+            linearAxis2.AbsoluteMaximum = 30;//ось х
+            plotModel1.Axes.Add(linearAxis2);
+
+
+            var scatter = new ScatterSeries();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var grow = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var P2 = yrow.P2;
+                var I = grow.I;
+                scatter.Points.Add(new ScatterPoint(I, P2));
+            }
+            plotModel1.Series.Add(scatter);
+
+
+
+
+            var points = new List<(double, double)>();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var row = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var P2 = yrow.P2;
+                var I = row.I;
+                points.Add((I, P2));
+            }
+            var (a, b) = Extrapolation.QuadExtrapollation(points);
+            var functionSeries = new FunctionSeries((x) =>
+            {
+                return a * x * x + b * x;
+            }, 0, 30, 0.01);
+            plotModel1.Series.Add(functionSeries);
+
+            plot3.Model = plotModel1;
+
+        }
+        private void OnDrawPClicked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!_tableManager.YrowsFilled) return;
+            var plotModel1 = new PlotModel();
+            var linearAxis1 = new LinearAxis();
+            linearAxis1.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+            plotModel1.Axes.Add(linearAxis1);
+            var linearAxis2 = new LinearAxis();
+            linearAxis2.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis2.MinorGridlineStyle = LineStyle.Dot;
+            linearAxis2.Position = AxisPosition.Bottom;
+            linearAxis1.AbsoluteMinimum = 0;
+            linearAxis2.AbsoluteMinimum = 0;
+            linearAxis1.AbsoluteMaximum = 600;//ось y
+            linearAxis2.AbsoluteMaximum = 30;//ось х
+            plotModel1.Axes.Add(linearAxis2);
+
+
+            var scatter = new ScatterSeries();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var grow = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var P = yrow.P;
+                var I = grow.I;
+                scatter.Points.Add(new ScatterPoint(I, P));
+            }
+            plotModel1.Series.Add(scatter);
+
+
+
+
+            var points = new List<(double, double)>();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var row = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var P = yrow.P;
+                var I = row.I;
+                points.Add((I, P));
+            }
+            var k = Extrapolation.Lin0Extrapollation(points);
+            var functionSeries = new FunctionSeries((x) =>
+            {
+                return k * x;
+            }, 0, 30, 0.01);
+            plotModel1.Series.Add(functionSeries);
+
+            plot4.Model = plotModel1;
+
+        }
+        private void OnDrawNuClicked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!_tableManager.YrowsFilled) return;
+            var plotModel1 = new PlotModel();
+            var linearAxis1 = new LinearAxis();
+            linearAxis1.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+            plotModel1.Axes.Add(linearAxis1);
+            var linearAxis2 = new LinearAxis();
+            linearAxis2.MajorGridlineStyle = LineStyle.Solid;
+            linearAxis2.MinorGridlineStyle = LineStyle.Dot;
+            linearAxis2.Position = AxisPosition.Bottom;
+            linearAxis1.AbsoluteMinimum = 0;
+            linearAxis2.AbsoluteMinimum = 0;
+            linearAxis1.AbsoluteMaximum = 100;//ось y
+            linearAxis2.AbsoluteMaximum = 30;//ось х
+            plotModel1.Axes.Add(linearAxis2);
+
+
+            var scatter = new ScatterSeries();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var grow = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var Nu = yrow.Nu;
+                var I = grow.I;
+                scatter.Points.Add(new ScatterPoint(I, Nu));
+            }
+            plotModel1.Series.Add(scatter);
+
+
+
+
+            var points = new List<(double, double)>();
+            for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var row = _tableManager.GetGreenRow(i);
+                var yrow = _tableManager.GetYellowRow(i);
+                var Nu = yrow.Nu;
+                var I = row.I;
+                points.Add((I, Nu));
+            }
+            var (k,b )= Extrapolation.LinExtrapollation(points);
+            var functionSeries = new FunctionSeries((x) =>
+            {
+                return k * x+b;
+            }, 0, 30, 0.01);
+            plotModel1.Series.Add(functionSeries);
+
+            plot5.Model = plotModel1;
 
         }
     }

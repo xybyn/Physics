@@ -12,6 +12,9 @@ namespace Physics
         public double R { get; set; }
         public double U { get; set; }
         public double I { get; set; }
+    }
+    public class YellowRow
+    {
         public double P { get; set; }
         public double P1 { get; set; }
         public double P2 { get; set; }
@@ -24,6 +27,9 @@ namespace Physics
         private int _currentIndexYellow = 0;
         private int _width = 8;
         private int _height = 5;
+        public bool measurementsdone = false;
+        public bool Uextrapolated = false;
+        public bool YrowsFilled = false;
 
         public int Width { get => _width; set => _width = value; }
         public int Height { get => _height; set => _height = value; }
@@ -54,21 +60,7 @@ namespace Physics
             (_dataGrid.FindName($"lbl{_currentIndexGreen}_{2}") as Label).Content = U;
             (_dataGrid.FindName($"lbl{_currentIndexGreen}_{3}") as Label).Content = I;
             _currentIndexGreen++;
-        }
-
-        public void Clear()
-        {
-            _currentIndexGreen = 0;
-            _currentIndexYellow = 0;
-            for (int i = 0; i < _width; i++)
-            {
-                for (int j = 0; j < _height; j++)
-                {
-                    var label = _dataGrid.FindName($"lbl{j}_{i}") as Label;
-
-                    label.Content = string.Empty;
-                }
-            }
+            if (_currentIndexGreen == 5) measurementsdone = true;
         }
 
         public void AddYellow(double P, double P1, double P2, double Nu)
@@ -85,5 +77,32 @@ namespace Physics
             _currentIndexYellow++;
         }
 
+        public YellowRow GetYellowRow(int row)
+        {
+            var yellowRow = new YellowRow();
+            yellowRow.P = (double)(_dataGrid.FindName($"lbl{row}_{4}") as Label).Content;
+            yellowRow.P1 = (double)(_dataGrid.FindName($"lbl{row}_{5}") as Label).Content;
+            yellowRow.P2 = (double)(_dataGrid.FindName($"lbl{row}_{6}") as Label).Content;
+            yellowRow.Nu = (double)(_dataGrid.FindName($"lbl{row}_{7}") as Label).Content;
+            return yellowRow;
+        }
+
+        public void Clear()
+        {
+            _currentIndexGreen = 0;
+            _currentIndexYellow = 0;
+            measurementsdone = false;
+            for (int i = 0; i < _width; i++)
+            {
+                for (int j = 0; j < _height; j++)
+                {
+                    var label = _dataGrid.FindName($"lbl{j}_{i}") as Label;
+
+                    label.Content = string.Empty;
+                }
+            }
+        }
+
+        
     }
 }
