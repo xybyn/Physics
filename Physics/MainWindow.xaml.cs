@@ -74,7 +74,19 @@ namespace Physics
 
         private void OnFillTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
-
+            if(!_tableManager.Uextrapolated)return;
+            _tableManager.YrowsFilled=true;
+             for (int i = 0; i < _tableManager.Height; i++)
+            {
+                var row = _tableManager.GetGreenRow(i);
+                var p1 = Math.Round(row.I * row.U, 3);
+                r = Math.Round(EDS / Ikz, 3);
+                var p2 = Math.Round(row.I * row.I * r, 3);
+                var p = Math.Round(p1 + p2, 3);
+                var nu = Math.Round(p1 / p, 2) * 100;
+                _tableManager.AddYellow(p,p1,p2,nu);
+               
+            }
         }
 
         private void OnSaveClicked(object sender, System.Windows.RoutedEventArgs e)
