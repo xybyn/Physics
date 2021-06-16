@@ -162,12 +162,13 @@
             Grid.Column="0" 
             Grid.RowSpan="2"
             Grid.Row="1"  
-            x:Name="view"
+       
             CameraRotationMode="Turntable" 
-            ModelUpDirection="0,1,0" RenderTransformOrigin="0.494,0.469">
+            ModelUpDirection="0,1,0"
+            Background="LightGray"
+            x:Name="viewPort">
             <ModelVisual3D x:Name="modelVisual">
-                <helix:DefaultLights/>
-                <helix:CubeVisual3D></helix:CubeVisual3D>
+                <helix:SunLight x:Name="sunLight"></helix:SunLight>
             </ModelVisual3D>
         </helix:HelixViewport3D>
 
