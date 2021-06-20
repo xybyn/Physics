@@ -60,7 +60,10 @@ namespace Physics
             (_dataGrid.FindName($"lbl{_currentIndexGreen}_{2}") as Label).Content = U;
             (_dataGrid.FindName($"lbl{_currentIndexGreen}_{3}") as Label).Content = I;
             _currentIndexGreen++;
-            if (_currentIndexGreen == 5) measurementsdone = true;
+            if (_currentIndexGreen == 5)
+            {
+                measurementsdone = true;
+            }
         }
 
         public void AddYellow(double P, double P1, double P2, double Nu)

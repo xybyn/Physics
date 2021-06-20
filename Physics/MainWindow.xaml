@@ -59,10 +59,17 @@
             <TabItem Header="U(I)" Width="60">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="График зависимости напряжения от силы тока" HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
@@ -71,13 +78,13 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0"  Click="OnDrawUClicked">Построить</Button>
-                        <Label Grid.Column="1" Content="I кз:" HorizontalAlignment="Right"></Label>
-                        <Label Grid.Column="2" x:Name="IkzLabel" Content="65" HorizontalAlignment="Left"></Label>
+                        <Button Grid.Column="0" x:Name="DrawUButton" IsEnabled="False" Click="OnDrawUClicked">Построить</Button>
+                        <Label Grid.Column="1"  Content="I кз:" HorizontalAlignment="Right"></Label>
+                        <Label Grid.Column="2" x:Name="IkzLabel" Content="" HorizontalAlignment="Left"></Label>
                         <Label Grid.Column="3" Content="ЭДС" HorizontalAlignment="Right"></Label>
-                        <Label Grid.Column="4" x:Name="EDSLabel" Content="65" HorizontalAlignment="Left"></Label>
+                        <Label Grid.Column="4" x:Name="EDSLabel" Content="" HorizontalAlignment="Left"></Label>
                     </Grid>
-                    <oxy:PlotView x:Name="plot1" >
+                    <oxy:PlotView Grid.Row="1" x:Name="plot1" >
                     </oxy:PlotView>
                 </Grid>
 
@@ -85,18 +92,25 @@
             <TabItem Header="P1(I)"  Width="60">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="График зависимости полезной мощности от силы тока" HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0"  Click="OnDrawP1Clicked">Построить</Button>
-                        
+                        <Button Grid.Column="0" x:Name="DrawP1Button" IsEnabled="False" Click="OnDrawP1Clicked">Построить</Button>
+
                     </Grid>
-                    <oxy:PlotView x:Name="plot2" >
+                    <oxy:PlotView Grid.Row="1" x:Name="plot2" >
                     </oxy:PlotView>
                 </Grid>
 
@@ -105,54 +119,75 @@
             <TabItem Header="P2(I)"  Width="60">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Content="График зависимости мощности потерь от силы тока" HorizontalContentAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0"  Click="OnDrawP2Clicked">Построить</Button>
+                        <Button Grid.Column="0" x:Name="DrawP2Button" IsEnabled="False" Click="OnDrawP2Clicked">Построить</Button>
 
                     </Grid>
-                    <oxy:PlotView x:Name="plot3" >
+                    <oxy:PlotView Grid.Row="1" x:Name="plot3" >
                     </oxy:PlotView>
                 </Grid>
             </TabItem>
             <TabItem Header="P(I)"  Width="60">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Content="График зависимости мощности потерь от силы тока" HorizontalContentAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0"  Click="OnDrawPClicked">Построить</Button>
+                        <Button Grid.Column="0" x:Name="DrawPButton" IsEnabled="False" Click="OnDrawPClicked">Построить</Button>
 
                     </Grid>
-                    <oxy:PlotView x:Name="plot4" >
+                    <oxy:PlotView Grid.Row="1" x:Name="plot4" >
                     </oxy:PlotView>
                 </Grid>
             </TabItem>
             <TabItem Header="КПД"  Width="60">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="1">
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="График зависимости КПД от силы тока" HorizontalAlignment="Center"></Label>
+                    </Grid>
+                    <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0"  Click="OnDrawNuClicked">Построить</Button>
+                        <Button Grid.Column="0" x:Name="DrawNuButton" IsEnabled="False" Click="OnDrawNuClicked">Построить</Button>
 
                     </Grid>
-                    <oxy:PlotView x:Name="plot5" >
+                    <oxy:PlotView Grid.Row="1" x:Name="plot5" >
                     </oxy:PlotView>
                 </Grid>
             </TabItem>
@@ -175,10 +210,14 @@
         </helix:HelixViewport3D>
 
         <Frame Grid.Column="1" Background="Beige" Grid.Row="2" Grid.ColumnSpan="2"></Frame>
-
-        <ScrollViewer Grid.Column="2" Grid.RowSpan="2">
-
+        <ScrollViewer Grid.Column="2" x:Name="InfoPannel" Width="200"  Grid.RowSpan="2">
+            <GroupBox>
+                <StackPanel>
+                    <Label Content="asd"></Label>
+                </StackPanel>
+            </GroupBox>
         </ScrollViewer>
+
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -209,9 +248,9 @@
                 <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding Value, ElementName=rSlider, TargetNullValue=100}"/>
             </Grid>
 
-            <Button Grid.Row="3" Grid.Column="0" Margin="2" Click="OnSaveClicked" Background="#FFD2FFD2">Сохранить</Button>
-            <Button Grid.Row="3" Grid.Column="1" Margin="2" Click="OnClearTableClicked">Очистить</Button>
-            <Button Grid.Row="3" Grid.Column="2" Margin="2" Click="OnFillTableClicked" Background="LightYellow">Заполнить</Button>
+            <Button Grid.Row="3" x:Name="SaveButton" Grid.Column="0" Margin="2" Click="OnSaveClicked" Background="#FFD2FFD2">Сохранить</Button>
+            <Button Grid.Row="3" x:Name="ClearButton" Grid.Column="1" Margin="2" Click="OnClearTableClicked">Очистить</Button>
+            <Button Grid.Row="3" x:Name="FillButton" Grid.Column="2" Margin="2" IsEnabled="False" Click="OnFillTableClicked" Background="LightYellow">Заполнить</Button>
         </Grid>
         <Grid  x:Name="dataGrid" Grid.Column="1" Grid.Row="1" SnapsToDevicePixels="True">
 
