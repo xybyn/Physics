@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
+using System.Windows.Media;
 
 namespace Physics
 {
@@ -22,6 +23,9 @@ namespace Physics
         double EDS;
         double Ikz;
         double r;
+        TextVisual3D resText = new TextVisual3D();
+        TextVisual3D voltText = new TextVisual3D();
+        TextVisual3D amperText = new TextVisual3D();
         public MainWindow()
         {
             InitializeComponent();
@@ -34,24 +38,78 @@ namespace Physics
                     new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90))
                 }
             };
-            //sunLight.Ambient += 100000;
+     
             _tableManager = new TableManager(dataGrid);
-            
-            ModelImporter importer = new ModelImporter();
-            Model3D table = importer.Load(@"Resources/table/table.obj");
-            Model3D res = importer.Load(@"Resources/res/res.obj");
-            Model3D voltmeter = importer.Load(@"Resources/volt/volt.obj");
-            var tg = new Transform3DGroup();
-            tg.Children.Add(new TranslateTransform3D(new Vector3D(0, 0, 5)));
-            tg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
-            
-            var tg2 = new Transform3DGroup();
-            tg2.Children.Add(new TranslateTransform3D(new Vector3D(20, 0, 5)));
-            tg2.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
-            table.Transform = new ScaleTransform3D(1.4, 1.4, 1.4);
-            res.Transform = tg;
 
-            voltmeter.Transform =tg2;
+            ModelImporter importer = new ModelImporter();
+            Model3D table = importer.Load(@"Resources/tt2/table.obj");
+            Model3D res = importer.Load(@"Resources/r/resistor.obj");
+            Model3D voltmeter = importer.Load(@"Resources/volt/volt.obj");
+            Model3D ampermeter = importer.Load(@"Resources/amper/amper.obj");
+            Model3D generator = importer.Load(@"Resources/ge/gen.obj");
+            var resTg = new Transform3DGroup();
+            resTg.Children.Add(new TranslateTransform3D(new Vector3D(0, 10, 4)));
+            resTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
+
+            var voltTg = new Transform3DGroup();
+            voltTg.Children.Add(new TranslateTransform3D(new Vector3D(0, -10, 4)));
+            voltTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
+
+            var amperTg = new Transform3DGroup();
+            amperTg.Children.Add(new TranslateTransform3D(new Vector3D(25, -10, 4)));
+            amperTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
+
+            var genTg = new Transform3DGroup();
+            genTg.Children.Add(new TranslateTransform3D(new Vector3D(10, -10, 4)));
+            genTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), -90)));
+            genTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), 180)));
+
+            table.Transform = new ScaleTransform3D(1.1, 1.1, 1.1);
+
+
+            res.Transform = resTg;
+            ampermeter.Transform = amperTg;
+
+            voltmeter.Transform = voltTg;
+            generator.Transform = genTg;
+
+            
+            resText.Text = "100";
+            var resTextTg = new Transform3DGroup();
+            var col = Color.FromRgb(85, 213, 136);
+            var br = new SolidColorBrush(col);
+            resText.Background = br;
+            resText.BorderBrush = br;
+         
+            resTextTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(0, 1, 0), 180)));
+            resTextTg.Children.Add(new TranslateTransform3D(new Vector3D(0, 19.28, -60)));
+            resTextTg.Children.Add(new ScaleTransform3D(new Vector3D(0.3, 0.3, 0.3)));
+            resText.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "Resources/fonts/#digital-7, dig");
+            resText.Transform = resTextTg;
+
+
+            var voltTextTg = new Transform3DGroup();
+            voltTextTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 180)));
+            voltTextTg.Children.Add(new TranslateTransform3D(new Vector3D(0, 19.28, 7)));
+            voltTextTg.Children.Add(new ScaleTransform3D(new Vector3D(0.3, 0.3, 0.3)));
+            voltText.Transform = voltTextTg;
+            voltText.Text = "2,43";
+            voltText.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "Resources/fonts/#digital-7, dig");
+            voltText.Background = br;
+            voltText.BorderBrush = br;
+            var amperTextTg = new Transform3DGroup();
+            amperTextTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 180)));
+            amperTextTg.Children.Add(new TranslateTransform3D(new Vector3D(83, 19.28, 7)));
+            amperTextTg.Children.Add(new ScaleTransform3D(new Vector3D(0.3, 0.3, 0.3)));
+            amperText.Transform = amperTextTg;
+            amperText.Text = "24,26";
+            amperText.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "Resources/fonts/#digital-7, dig");
+            amperText.Background = br;
+            amperText.BorderBrush = br;
+            modelVisual.Children.Add(resText);
+            modelVisual.Children.Add(voltText);
+            modelVisual.Children.Add(amperText);
+
             modelVisual.Children.Add(new ModelVisual3D
             {
                 Content = table
@@ -64,6 +122,153 @@ namespace Physics
             {
                 Content = voltmeter
             });
+            modelVisual.Children.Add(new ModelVisual3D
+            {
+                Content = ampermeter
+            });
+            modelVisual.Children.Add(new ModelVisual3D
+            {
+                Content = generator
+            });
+
+            var fromPlusVolt = new TubeVisual3D();
+            fromPlusVolt.Fill = new SolidColorBrush(Colors.IndianRed);
+            fromPlusVolt.Diameter += 0.2;
+            fromPlusVolt.Path = new Point3DCollection();
+            fromPlusVolt.Path.Add(new Point3D(-3.9, 6.01, 6.95));
+            fromPlusVolt.Path.Add(new Point3D(-3.9, 6.55, 6.95));
+            fromPlusVolt.Path.Add(new Point3D(-5.9, 6.55, 6.95));
+            fromPlusVolt.Path.Add(new Point3D(-6.3, 5.55, 6.95));
+            fromPlusVolt.Path.Add(new Point3D(-6.6, 4.55, 6.95));
+            fromPlusVolt.Path.Add(new Point3D(-7.6, 4.55, 6.95));
+            fromPlusVolt.Path.Add(new Point3D(-12.6, 4.55, 6.95));
+            fromPlusVolt.Path.Add(new Point3D(-13.6, 4.55, 5.95));
+            fromPlusVolt.Path.Add(new Point3D(-13.6, 4.55, -13));
+
+
+            var fromMinusRes = new TubeVisual3D();
+            fromMinusRes.Fill = new SolidColorBrush(Colors.IndianRed);
+            fromMinusRes.Diameter += 0.2;
+            fromMinusRes.Path = new Point3DCollection();
+            fromMinusRes.Path.Add(new Point3D(-4.9, 6.01, -13));
+            fromMinusRes.Path.Add(new Point3D(-4.9, 6.55, -13));
+            fromMinusRes.Path.Add(new Point3D(-6.9, 6.55, -13));
+            fromMinusRes.Path.Add(new Point3D(-7.3, 5.55, -13));
+            fromMinusRes.Path.Add(new Point3D(-7.3, 5.0, -13));
+            fromMinusRes.Path.Add(new Point3D(-7.3, 4.55, -13));
+            fromMinusRes.Path.Add(new Point3D(-8.3, 4.55, -13));
+            fromMinusRes.Path.Add(new Point3D(-22.0, 4.55, -13));
+            fromMinusRes.Path.Add(new Point3D(-22.3, 4.55, -13));
+            fromMinusRes.Path.Add(new Point3D(-22.7, 4.55, -12.5));
+            fromMinusRes.Path.Add(new Point3D(-22.7, 4.55, -11));
+            fromMinusRes.Path.Add(new Point3D(-22.7, 6, -10));
+            fromMinusRes.Path.Add(new Point3D(-22.7, 6, -9));
+            fromMinusRes.Path.Add(new Point3D(-22.7, 5.5, -8.1));
+            fromMinusRes.Path.Add(new Point3D(-22.7, 4.5, -8.0));
+
+            var fromMinusGen = new TubeVisual3D();
+            fromMinusGen.Fill = new SolidColorBrush(Colors.IndianRed);
+            fromMinusGen.Diameter += 0.2;
+            fromMinusGen.Path = new Point3DCollection();
+            fromMinusGen.Path.Add(new Point3D(-22.7, 4.5, -1.1));
+            fromMinusGen.Path.Add(new Point3D(-22.7, 5.5, -1.1));
+            fromMinusGen.Path.Add(new Point3D(-22.7, 6.5, 0));
+            fromMinusGen.Path.Add(new Point3D(-22.7, 6.5, 0.4));
+            fromMinusGen.Path.Add(new Point3D(-22.7, 6.0, 1));
+            fromMinusGen.Path.Add(new Point3D(-22.7, 5.0, 1.5));
+            fromMinusGen.Path.Add(new Point3D(-22.7, 4.5, 1.7));
+            fromMinusGen.Path.Add(new Point3D(-22.7, 4.5, 20));
+            fromMinusGen.Path.Add(new Point3D(-21.7, 4.5, 21));
+            fromMinusGen.Path.Add(new Point3D(-20.7, 4.5, 21.5));
+            fromMinusGen.Path.Add(new Point3D(16, 4.5, 21.5));
+            fromMinusGen.Path.Add(new Point3D(17, 4.5, 20.5));
+            fromMinusGen.Path.Add(new Point3D(17.5, 4.5, 18.0));
+            fromMinusGen.Path.Add(new Point3D(17.5, 4.5, 8.0));
+            fromMinusGen.Path.Add(new Point3D(18.0, 4.6, 7.0));
+            fromMinusGen.Path.Add(new Point3D(18.5, 4.9, 7.0));
+            fromMinusGen.Path.Add(new Point3D(19.0, 5.4, 7.0));
+            fromMinusGen.Path.Add(new Point3D(19.2, 6.5, 7.0));
+            fromMinusGen.Path.Add(new Point3D(20.5, 6.5, 7.0));
+            fromMinusGen.Path.Add(new Point3D(21, 6.0, 7.0));
+            fromMinusGen.Path.Add(new Point3D(21.3, 4.6, 7.0));
+
+
+            var fromPlusAmper = new TubeVisual3D();
+            fromPlusAmper.Fill = new SolidColorBrush(Colors.IndianRed);
+            fromPlusAmper.Diameter += 0.2;
+            fromPlusAmper.Path = new Point3DCollection();
+
+            fromPlusAmper.Path.Add(new Point3D(28.1, 4.6, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(28.1, 6.3, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(29.1, 6.6, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(30.1, 6.7, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(30.4, 6.3, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(30.6, 6.0, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(30.8, 5, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(31.9, 4.5, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(32.9, 4.5, 7.0));
+            fromPlusAmper.Path.Add(new Point3D(33.5, 4.5, 6.5));
+            fromPlusAmper.Path.Add(new Point3D(33.7, 4.5, 6.2));
+            fromPlusAmper.Path.Add(new Point3D(33.5, 4.5, -11));
+            fromPlusAmper.Path.Add(new Point3D(33.2, 4.5, -11.5));
+            fromPlusAmper.Path.Add(new Point3D(32.0, 4.5, -13));
+            fromPlusAmper.Path.Add(new Point3D(7.0, 4.5, -13));
+            fromPlusAmper.Path.Add(new Point3D(6.8, 4.9, -13));
+            fromPlusAmper.Path.Add(new Point3D(6.4, 5.5, -13));
+            fromPlusAmper.Path.Add(new Point3D(6.2, 5.8, -13));
+            fromPlusAmper.Path.Add(new Point3D(5.9, 6.3, -13));
+            fromPlusAmper.Path.Add(new Point3D(5.9, 6.5, -13));
+            fromPlusAmper.Path.Add(new Point3D(5.3, 6.5, -13));
+            fromPlusAmper.Path.Add(new Point3D(5.0, 6.5, -13));
+            fromPlusAmper.Path.Add(new Point3D(4.6, 6.3, -13));
+            fromPlusAmper.Path.Add(new Point3D(4.0, 5.8, -13));
+            fromPlusAmper.Path.Add(new Point3D(3.9, 4.6, -13));
+
+
+            var fromMinVol = new TubeVisual3D();
+            fromMinVol.Fill = new SolidColorBrush(Colors.IndianRed);
+            fromMinVol.Diameter += 0.2;
+            fromMinVol.Path = new Point3DCollection();
+            fromMinVol.Path.Add(new Point3D(2.9, 4.51, 6.95));
+            fromMinVol.Path.Add(new Point3D(2.9, 6.01, 6.95));
+            fromMinVol.Path.Add(new Point3D(3.5, 6.51, 6.95));
+            fromMinVol.Path.Add(new Point3D(3.8, 6.51, 6.95));
+            fromMinVol.Path.Add(new Point3D(4.3, 6.61, 6.95));
+            fromMinVol.Path.Add(new Point3D(4.5, 6.71, 6.95));
+            fromMinVol.Path.Add(new Point3D(5, 6.5, 6.95));
+            fromMinVol.Path.Add(new Point3D(5.5, 6.0, 6.95));
+            fromMinVol.Path.Add(new Point3D(6.0, 5.4, 6.95));
+            fromMinVol.Path.Add(new Point3D(6.5, 5.0, 6.95));
+            fromMinVol.Path.Add(new Point3D(7.0, 4.6, 6.95));
+            fromMinVol.Path.Add(new Point3D(8.0, 4.6, 6.95));
+            fromMinVol.Path.Add(new Point3D(8.3, 4.6, 6.7));
+            fromMinVol.Path.Add(new Point3D(8.6, 4.6, 6.4));
+            fromMinVol.Path.Add(new Point3D(9, 4.6, 6.0));
+            fromMinVol.Path.Add(new Point3D(9.4, 4.6, 5.6));
+            fromMinVol.Path.Add(new Point3D(9.8, 4.6, 5.2));
+            fromMinVol.Path.Add(new Point3D(10.2, 4.6, 4.8));
+            fromMinVol.Path.Add(new Point3D(10.2, 4.6, -13));
+
+            var fromPlusVolt2 = new TubeVisual3D();
+            fromPlusVolt2.Fill = new SolidColorBrush(Colors.IndianRed);
+            fromPlusVolt2.Diameter += 0.2;
+            fromPlusVolt2.Path = new Point3DCollection();
+          
+            fromPlusVolt2.Path.Add(new Point3D(-13.6, 4.55, -5));
+            fromPlusVolt2.Path.Add(new Point3D(-1.3, 4.55, -5));
+            fromPlusVolt2.Path.Add(new Point3D(-0.9, 4.55, -5.3));
+            fromPlusVolt2.Path.Add(new Point3D(-0.7, 4.55, -5.6));
+            //fromPlusVolt2.Path.Add(new Point3D(-0.4, 4.55, -5.9));
+            fromPlusVolt2.Path.Add(new Point3D(-0.4, 4.55, -6.3));
+            fromPlusVolt2.Path.Add(new Point3D(-0.4, 4.55, -12.3));
+
+
+            modelVisual.Children.Add(fromPlusVolt);
+            modelVisual.Children.Add(fromMinusRes);
+            modelVisual.Children.Add(fromMinusGen);
+            modelVisual.Children.Add(fromPlusAmper);
+            modelVisual.Children.Add(fromMinVol);
+            modelVisual.Children.Add(fromPlusVolt2);
         }
 
         private void OnClearTableClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -74,9 +279,9 @@ namespace Physics
 
         private void OnFillTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
-            if(!_tableManager.Uextrapolated)return;
-            _tableManager.YrowsFilled=true;
-             for (int i = 0; i < _tableManager.Height; i++)
+            if (!_tableManager.Uextrapolated) return;
+            _tableManager.YrowsFilled = true;
+            for (int i = 0; i < _tableManager.Height; i++)
             {
                 var row = _tableManager.GetGreenRow(i);
                 var p1 = Math.Round(row.I * row.U, 3);
@@ -84,8 +289,8 @@ namespace Physics
                 var p2 = Math.Round(row.I * row.I * r, 3);
                 var p = Math.Round(p1 + p2, 3);
                 var nu = Math.Round(p1 / p, 2) * 100;
-                _tableManager.AddYellow(p,p1,p2,nu);
-               
+                _tableManager.AddYellow(p, p1, p2, nu);
+
             }
         }
 
@@ -103,9 +308,12 @@ namespace Physics
             var R = rSlider.Value;
             var I = eds / (R + r) * 1000;
             var U = I * R * 0.001;
-            this.R = Math.Round(R, 3);
-            this.U = Math.Round(U, 3);
-            this.I = Math.Round(I, 3);
+            this.R = Math.Round(R, 2);
+            this.U = Math.Round(U, 2);
+            this.I = Math.Round(I, 2);
+            resText.Text = this.R.ToString();
+            voltText.Text = this.U.ToString();
+            amperText.Text = this.I.ToString();
         }
 
         private void OnExtrapolateUClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -367,10 +575,10 @@ namespace Physics
                 var I = row.I;
                 points.Add((I, Nu));
             }
-            var (k,b )= Extrapolation.LinExtrapollation(points);
+            var (k, b) = Extrapolation.LinExtrapollation(points);
             var functionSeries = new FunctionSeries((x) =>
             {
-                return k * x+b;
+                return k * x + b;
             }, 0, 30, 0.01);
             plotModel1.Series.Add(functionSeries);
 

@@ -163,7 +163,9 @@
             Grid.RowSpan="2"
             Grid.Row="1"  
        
-            CameraRotationMode="Turntable" 
+            CameraRotationMode="Turntable"    
+            ShowCameraTarget="False"
+   
             ModelUpDirection="0,1,0"
             Background="LightGray"
             x:Name="viewPort">
