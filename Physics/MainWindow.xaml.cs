@@ -475,6 +475,7 @@ namespace Physics
         private void OnDrawP1Clicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+            DrawP1Button.IsEnabled = false;
             var plotModel1 = new PlotModel();
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
@@ -527,6 +528,7 @@ namespace Physics
         private void OnDrawP2Clicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+            DrawP2Button.IsEnabled = false;
             var plotModel1 = new PlotModel();
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
@@ -579,6 +581,7 @@ namespace Physics
         private void OnDrawPClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+            DrawPButton.IsEnabled = false;
             var plotModel1 = new PlotModel();
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
@@ -631,6 +634,7 @@ namespace Physics
         private void OnDrawNuClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+            DrawNuButton.IsEnabled = false;
             var plotModel1 = new PlotModel();
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
