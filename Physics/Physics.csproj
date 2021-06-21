@@ -147,6 +147,7 @@
     <Content Include="Resources\amper\amper.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\nstulogo.png" />
     <Resource Include="Resources\fonts\readme.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
