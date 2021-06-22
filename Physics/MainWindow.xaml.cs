@@ -430,8 +430,7 @@ namespace Physics
                 _tableManager.AddYellow(p, p1, p2, nu);
             }
 
-            var newContent = "Постройте графики функций \nР1(I), Р2(I), Р(I), КПД(I) \nСравните рисунки с \nтеоретической зависимостью.";
-            InfoPannel.Content = newContent;
+            InfoText.Inlines.Add("\n\nПостройте графики функций Р1(I), Р2(I), Р(I), КПД(I). Сравните рисунки с теоретической зависимостью.");
         }
 
         private void OnSaveClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -443,8 +442,8 @@ namespace Physics
             if (_tableManager.measurementsdone) 
             { 
                 DrawUButton.IsEnabled = true;
-                var newContent = "Нажмите на кнопку Построить,\nчтобы изобразить точки на \nкоординатной сетке.";
-                InfoPannel.Content = newContent;
+
+                InfoText.Inlines.Add("\n\nНажмите на кнопку Построить, чтобы изобразить точки на координатной сетке.");
             };
         }
 
@@ -529,8 +528,7 @@ namespace Physics
 
             plot1.Model = plotModel1;
 
-            var newContent = "Нажмите на кнопку Заполнить,\nчтобы расчитать значения \nР1, Р2 Р, КПД \nдля каждого проведенного \nзамера.";
-            InfoPannel.Content = newContent;
+            InfoText.Inlines.Add("\n\nНажмите на кнопку Заполнить, чтобы расчитать значения Р1, Р2 Р, КПД для каждого проведенного замера.");
         }
 
         private void OnDrawP1Clicked(object sender, System.Windows.RoutedEventArgs e)
