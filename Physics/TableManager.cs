@@ -105,7 +105,5 @@ namespace Physics
                 }
             }
         }
-
-        
     }
 }

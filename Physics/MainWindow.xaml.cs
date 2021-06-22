@@ -26,6 +26,7 @@ namespace Physics
         TextVisual3D resText = new TextVisual3D();
         TextVisual3D voltText = new TextVisual3D();
         TextVisual3D amperText = new TextVisual3D();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -67,14 +68,12 @@ namespace Physics
 
             table.Transform = new ScaleTransform3D(1.1, 1.1, 1.1);
 
-
             res.Transform = resTg;
             ampermeter.Transform = amperTg;
 
             voltmeter.Transform = voltTg;
             generator.Transform = genTg;
 
-            
             resText.Text = "100";
             var resTextTg = new Transform3DGroup();
             var col = Color.FromRgb(85, 213, 136);
@@ -87,7 +86,6 @@ namespace Physics
             resTextTg.Children.Add(new ScaleTransform3D(new Vector3D(0.3, 0.3, 0.3)));
             resText.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "Resources/fonts/#digital-7, dig");
             resText.Transform = resTextTg;
-
 
             var voltTextTg = new Transform3DGroup();
             voltTextTg.Children.Add(new RotateTransform3D(new AxisAngleRotation3D(new Vector3D(1, 0, 0), 180)));
@@ -146,7 +144,6 @@ namespace Physics
             fromPlusVolt.Path.Add(new Point3D(-13.6, 4.55, 5.95));
             fromPlusVolt.Path.Add(new Point3D(-13.6, 4.55, -13));
 
-
             var fromMinusRes = new TubeVisual3D();
             fromMinusRes.Fill = new SolidColorBrush(Colors.IndianRed);
             fromMinusRes.Diameter += 0.2;
@@ -193,7 +190,6 @@ namespace Physics
             fromMinusGen.Path.Add(new Point3D(21, 6.0, 7.0));
             fromMinusGen.Path.Add(new Point3D(21.3, 4.6, 7.0));
 
-
             var fromPlusAmper = new TubeVisual3D();
             fromPlusAmper.Fill = new SolidColorBrush(Colors.IndianRed);
             fromPlusAmper.Diameter += 0.2;
@@ -224,7 +220,6 @@ namespace Physics
             fromPlusAmper.Path.Add(new Point3D(4.6, 6.3, -13));
             fromPlusAmper.Path.Add(new Point3D(4.0, 5.8, -13));
             fromPlusAmper.Path.Add(new Point3D(3.9, 4.6, -13));
-
 
             var fromMinVol = new TubeVisual3D();
             fromMinVol.Fill = new SolidColorBrush(Colors.IndianRed);
@@ -262,7 +257,6 @@ namespace Physics
             //fromPlusVolt2.Path.Add(new Point3D(-0.4, 4.55, -5.9));
             fromPlusVolt2.Path.Add(new Point3D(-0.4, 4.55, -6.3));
             fromPlusVolt2.Path.Add(new Point3D(-0.4, 4.55, -12.3));
-
 
             modelVisual.Children.Add(fromPlusVolt);
             modelVisual.Children.Add(fromMinusRes);
@@ -435,6 +429,9 @@ namespace Physics
                 var nu = Math.Round(p1 * 100 / p, 2);
                 _tableManager.AddYellow(p, p1, p2, nu);
             }
+
+            var newContent = "Постройте графики функций \nР1(I), Р2(I), Р(I), КПД(I) \nСравните рисунки с \nтеоретической зависимостью.";
+            InfoPannel.Content = newContent;
         }
 
         private void OnSaveClicked(object sender, System.Windows.RoutedEventArgs e)
@@ -443,7 +440,12 @@ namespace Physics
 
             _tableManager.AddGreenRow(R, U, I);
 
-            if (_tableManager.measurementsdone) DrawUButton.IsEnabled = true;
+            if (_tableManager.measurementsdone) 
+            { 
+                DrawUButton.IsEnabled = true;
+                var newContent = "Нажмите на кнопку Построить,\nчтобы изобразить точки на \nкоординатной сетке.";
+                InfoPannel.Content = newContent;
+            };
         }
 
         private void OnSliderValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
@@ -526,6 +528,9 @@ namespace Physics
             EDS = Math.Round(-b / k, 2);
 
             plot1.Model = plotModel1;
+
+            var newContent = "Нажмите на кнопку Заполнить,\nчтобы расчитать значения \nР1, Р2 Р, КПД \nдля каждого проведенного \nзамера.";
+            InfoPannel.Content = newContent;
         }
 
         private void OnDrawP1Clicked(object sender, System.Windows.RoutedEventArgs e)

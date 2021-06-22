@@ -245,7 +245,11 @@
         <ScrollViewer Grid.Column="2" x:Name="InfoPannel" Width="200"  Grid.RowSpan="2">
             <GroupBox>
                 <StackPanel>
-                    <Label Content="asd"></Label>
+					<TextBlock x:Name="InfoText"
+                               FontSize="14"
+                               TextWrapping="Wrap"
+                               Foreground="Black"
+                               Text="Проведите 5 замеров, изменяя значение R, после каждого изменения нажмите кнопку Сохранить, чтобы занести данные в таблицу." />
                 </StackPanel>
             </GroupBox>
         </ScrollViewer>
