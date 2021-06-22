@@ -274,90 +274,142 @@ namespace Physics
 
         private void InitializePlotModels()
         {
+            // 1 model
             var plotModel1 = new PlotModel();
+            
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
             linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+            
             plotModel1.Axes.Add(linearAxis1);
+
             var linearAxis2 = new LinearAxis();
             linearAxis2.MajorGridlineStyle = LineStyle.Solid;
             linearAxis2.MinorGridlineStyle = LineStyle.Dot;
             linearAxis2.Position = AxisPosition.Bottom;
+
             linearAxis1.AbsoluteMinimum = 0;
             linearAxis2.AbsoluteMinimum = 0;
             linearAxis1.AbsoluteMaximum = 30;
             linearAxis2.AbsoluteMaximum = 30;
+
             plotModel1.Axes.Add(linearAxis2);
+            
+            linearAxis1.Title = "U, В";
+            linearAxis2.Title = "I, мА";
+
             plot1.Model = plotModel1;
 
+            // 2 model
             var plotModel2 = new PlotModel();
+
             var linearAxis12 = new LinearAxis();
             linearAxis12.MajorGridlineStyle = LineStyle.Solid;
             linearAxis12.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel2.Axes.Add(linearAxis12);
+
             var linearAxis22 = new LinearAxis();
             linearAxis22.MajorGridlineStyle = LineStyle.Solid;
             linearAxis22.MinorGridlineStyle = LineStyle.Dot;
             linearAxis22.Position = AxisPosition.Bottom;
+
             linearAxis12.AbsoluteMinimum = 0;
             linearAxis22.AbsoluteMinimum = 0;
             linearAxis12.AbsoluteMaximum = 150;//ось y
             linearAxis22.AbsoluteMaximum = 30;//ось х
+
             plotModel2.Axes.Add(linearAxis22);
+
+            linearAxis12.Title = "P1, мВт";
+            linearAxis22.Title = "I, мА";
+
             plot2.Model = plotModel2;
 
+            // 3 model
             var plotModel3 = new PlotModel();
+
             var linearAxis13 = new LinearAxis();
+
             linearAxis13.MajorGridlineStyle = LineStyle.Solid;
             linearAxis13.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel3.Axes.Add(linearAxis13);
+
             var linearAxis23 = new LinearAxis();
             linearAxis23.MajorGridlineStyle = LineStyle.Solid;
             linearAxis23.MinorGridlineStyle = LineStyle.Dot;
             linearAxis23.Position = AxisPosition.Bottom;
+
             linearAxis13.AbsoluteMinimum = 0;
             linearAxis23.AbsoluteMinimum = 0;
             linearAxis13.AbsoluteMaximum = 400;//ось y
             linearAxis23.AbsoluteMaximum = 30;//ось х
+
             plotModel3.Axes.Add(linearAxis23);
+
+            linearAxis13.Title = "P2, мВт";
+            linearAxis23.Title = "I, мА";
+
             plot3.Model = plotModel3;
 
+            // 4 model
             var plotModel4 = new PlotModel();
+
             var linearAxis14 = new LinearAxis();
             linearAxis14.MajorGridlineStyle = LineStyle.Solid;
             linearAxis14.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel4.Axes.Add(linearAxis14);
+
             var linearAxis24 = new LinearAxis();
             linearAxis24.MajorGridlineStyle = LineStyle.Solid;
             linearAxis24.MinorGridlineStyle = LineStyle.Dot;
             linearAxis24.Position = AxisPosition.Bottom;
+
             linearAxis14.AbsoluteMinimum = 0;
             linearAxis24.AbsoluteMinimum = 0;
             linearAxis14.AbsoluteMaximum = 600;//ось y
             linearAxis24.AbsoluteMaximum = 30;//ось х
+
             plotModel4.Axes.Add(linearAxis24);
+            
+            linearAxis14.Title = "P, мВт";
+            linearAxis24.Title = "I, мА";
+
             plot4.Model = plotModel4;
 
+            // 5 model
             var plotModel5 = new PlotModel();
+
             var linearAxis15 = new LinearAxis();
             linearAxis15.MajorGridlineStyle = LineStyle.Solid;
             linearAxis15.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel5.Axes.Add(linearAxis15);
+
             var linearAxis25 = new LinearAxis();
             linearAxis25.MajorGridlineStyle = LineStyle.Solid;
             linearAxis25.MinorGridlineStyle = LineStyle.Dot;
             linearAxis25.Position = AxisPosition.Bottom;
+
             linearAxis15.AbsoluteMinimum = 0;
             linearAxis25.AbsoluteMinimum = 0;
             linearAxis15.AbsoluteMaximum = 100;//ось y
             linearAxis25.AbsoluteMaximum = 30;//ось х
+
             plotModel5.Axes.Add(linearAxis25);
+            
+            linearAxis15.Title = "КПД, %";
+            linearAxis25.Title = "I, мА";
+
             plot5.Model = plotModel5;
         }
 
         private void OnClearTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (_tableManager.Uextrapolated) return;
+
             _tableManager.Clear();
             DrawUButton.IsEnabled = false;
         }
@@ -365,12 +417,14 @@ namespace Physics
         private void OnFillTableClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.Uextrapolated) return;
+
             _tableManager.YrowsFilled = true;
             DrawPButton.IsEnabled = true;
             DrawP2Button.IsEnabled = true;
             DrawP1Button.IsEnabled = true;
             DrawNuButton.IsEnabled = true;
             FillButton.IsEnabled = false;
+
             for (int i = 0; i < _tableManager.Height; i++)
             {
                 var row = _tableManager.GetGreenRow(i);
@@ -380,20 +434,20 @@ namespace Physics
                 var p = Math.Round(p1 + p2, 2);
                 var nu = Math.Round(p1 * 100 / p, 2);
                 _tableManager.AddYellow(p, p1, p2, nu);
-
             }
         }
 
         private void OnSaveClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (_tableManager.Uextrapolated) return;
+
             _tableManager.AddGreenRow(R, U, I);
+
             if (_tableManager.measurementsdone) DrawUButton.IsEnabled = true;
         }
 
         private void OnSliderValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
         {
-
             var eds = 18.0;
             var r = 642.0;
             var R = rSlider.Value;
@@ -402,40 +456,44 @@ namespace Physics
             this.R = Math.Round(R, 2);
             this.U = Math.Round(U, 2);
             this.I = Math.Round(I, 2);
+
             resText.Text = this.R.ToString();
             voltText.Text = this.U.ToString();
             amperText.Text = this.I.ToString();
         }
 
-        private void OnExtrapolateUClicked(object sender, System.Windows.RoutedEventArgs e)
-        {
-
-            //   plot1.Model.Series.Add(functionSeries);
-        }
-
         private void OnDrawUClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.measurementsdone) return;
+
             _tableManager.Uextrapolated = true;
             SaveButton.IsEnabled = false;
             ClearButton.IsEnabled = false;
             DrawUButton.IsEnabled = false;
             FillButton.IsEnabled = true;
+
             var plotModel1 = new PlotModel();
+
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
             linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel1.Axes.Add(linearAxis1);
+
             var linearAxis2 = new LinearAxis();
             linearAxis2.MajorGridlineStyle = LineStyle.Solid;
             linearAxis2.MinorGridlineStyle = LineStyle.Dot;
             linearAxis2.Position = AxisPosition.Bottom;
+
             linearAxis1.AbsoluteMinimum = 0;
             linearAxis2.AbsoluteMinimum = 0;
             linearAxis1.AbsoluteMaximum = 30;
             linearAxis2.AbsoluteMaximum = 30;
+
             plotModel1.Axes.Add(linearAxis2);
 
+            linearAxis1.Title = "U, В";
+            linearAxis2.Title = "I, мА";
 
             var scatter = new ScatterSeries();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -446,8 +504,6 @@ namespace Physics
                 scatter.Points.Add(new ScatterPoint(U, I));
             }
             plotModel1.Series.Add(scatter);
-
-
 
             var points = new List<(double, double)>();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -463,34 +519,43 @@ namespace Physics
                 return k * x + b;
             }, 0, 30, 0.01);
             plotModel1.Series.Add(functionSeries);
+
             IkzLabel.Content = Math.Round(b, 2);
             EDSLabel.Content = Math.Round(-b / k, 2);
             Ikz = Math.Round(b, 2);
             EDS = Math.Round(-b / k, 2);
-            plot1.Model = plotModel1;
-            
 
+            plot1.Model = plotModel1;
         }
 
         private void OnDrawP1Clicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+
             DrawP1Button.IsEnabled = false;
+
             var plotModel1 = new PlotModel();
+
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
             linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel1.Axes.Add(linearAxis1);
+
             var linearAxis2 = new LinearAxis();
             linearAxis2.MajorGridlineStyle = LineStyle.Solid;
             linearAxis2.MinorGridlineStyle = LineStyle.Dot;
             linearAxis2.Position = AxisPosition.Bottom;
+
             linearAxis1.AbsoluteMinimum = 0;
             linearAxis2.AbsoluteMinimum = 0;
             linearAxis1.AbsoluteMaximum = 150;//ось y
             linearAxis2.AbsoluteMaximum = 30;//ось х
+
             plotModel1.Axes.Add(linearAxis2);
 
+            linearAxis1.Title = "P1, мВт";
+            linearAxis2.Title = "I, мА";
 
             var scatter = new ScatterSeries();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -502,9 +567,6 @@ namespace Physics
                 scatter.Points.Add(new ScatterPoint(I, P1));
             }
             plotModel1.Series.Add(scatter);
-
-
-
 
             var points = new List<(double, double)>();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -523,27 +585,35 @@ namespace Physics
             plotModel1.Series.Add(functionSeries);
 
             plot2.Model = plotModel1;
-
         }
         private void OnDrawP2Clicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+
             DrawP2Button.IsEnabled = false;
+
             var plotModel1 = new PlotModel();
+
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
             linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel1.Axes.Add(linearAxis1);
+
             var linearAxis2 = new LinearAxis();
             linearAxis2.MajorGridlineStyle = LineStyle.Solid;
             linearAxis2.MinorGridlineStyle = LineStyle.Dot;
             linearAxis2.Position = AxisPosition.Bottom;
+
             linearAxis1.AbsoluteMinimum = 0;
             linearAxis2.AbsoluteMinimum = 0;
             linearAxis1.AbsoluteMaximum = 400;//ось y
             linearAxis2.AbsoluteMaximum = 30;//ось х
-            plotModel1.Axes.Add(linearAxis2);
 
+            plotModel1.Axes.Add(linearAxis2);
+            
+            linearAxis1.Title = "P2, мВт";
+            linearAxis2.Title = "I, мА";
 
             var scatter = new ScatterSeries();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -555,9 +625,6 @@ namespace Physics
                 scatter.Points.Add(new ScatterPoint(I, P2));
             }
             plotModel1.Series.Add(scatter);
-
-
-
 
             var points = new List<(double, double)>();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -576,27 +643,35 @@ namespace Physics
             plotModel1.Series.Add(functionSeries);
 
             plot3.Model = plotModel1;
-
         }
         private void OnDrawPClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+
             DrawPButton.IsEnabled = false;
+
             var plotModel1 = new PlotModel();
+
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
             linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel1.Axes.Add(linearAxis1);
+
             var linearAxis2 = new LinearAxis();
             linearAxis2.MajorGridlineStyle = LineStyle.Solid;
             linearAxis2.MinorGridlineStyle = LineStyle.Dot;
             linearAxis2.Position = AxisPosition.Bottom;
+
             linearAxis1.AbsoluteMinimum = 0;
             linearAxis2.AbsoluteMinimum = 0;
             linearAxis1.AbsoluteMaximum = 600;//ось y
             linearAxis2.AbsoluteMaximum = 30;//ось х
+
             plotModel1.Axes.Add(linearAxis2);
 
+            linearAxis1.Title = "P, мВт";
+            linearAxis2.Title = "I, мА";
 
             var scatter = new ScatterSeries();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -608,9 +683,6 @@ namespace Physics
                 scatter.Points.Add(new ScatterPoint(I, P));
             }
             plotModel1.Series.Add(scatter);
-
-
-
 
             var points = new List<(double, double)>();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -629,27 +701,35 @@ namespace Physics
             plotModel1.Series.Add(functionSeries);
 
             plot4.Model = plotModel1;
-
         }
         private void OnDrawNuClicked(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_tableManager.YrowsFilled) return;
+
             DrawNuButton.IsEnabled = false;
+
             var plotModel1 = new PlotModel();
+
             var linearAxis1 = new LinearAxis();
             linearAxis1.MajorGridlineStyle = LineStyle.Solid;
             linearAxis1.MinorGridlineStyle = LineStyle.Dot;
+
             plotModel1.Axes.Add(linearAxis1);
+
             var linearAxis2 = new LinearAxis();
             linearAxis2.MajorGridlineStyle = LineStyle.Solid;
             linearAxis2.MinorGridlineStyle = LineStyle.Dot;
             linearAxis2.Position = AxisPosition.Bottom;
+
             linearAxis1.AbsoluteMinimum = 0;
             linearAxis2.AbsoluteMinimum = 0;
             linearAxis1.AbsoluteMaximum = 100;//ось y
             linearAxis2.AbsoluteMaximum = 30;//ось х
+
             plotModel1.Axes.Add(linearAxis2);
 
+            linearAxis1.Title = "КПД, %";
+            linearAxis2.Title = "I, мА";
 
             var scatter = new ScatterSeries();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -661,9 +741,6 @@ namespace Physics
                 scatter.Points.Add(new ScatterPoint(I, Nu));
             }
             plotModel1.Series.Add(scatter);
-
-
-
 
             var points = new List<(double, double)>();
             for (int i = 0; i < _tableManager.Height; i++)
@@ -682,7 +759,6 @@ namespace Physics
             plotModel1.Series.Add(functionSeries);
 
             plot5.Model = plotModel1;
-
         }
     }
 }
